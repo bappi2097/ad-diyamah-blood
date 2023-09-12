@@ -1,17 +1,19 @@
 import mongoose from "mongoose"
 
-export interface UserType extends mongoose.Document {
+export interface UserType {
   name: string
   email: string
   password: string
 }
 
-export interface UserWithID extends UserType {
+export interface iUserType extends UserType, mongoose.Document {}
+
+export interface UserWithID extends Omit<UserType, "password"> {
   id: string
 }
 
 /* UserSchema will correspond to a collection in your MongoDB database. */
-const UserSchema = new mongoose.Schema<UserType>({
+const UserSchema = new mongoose.Schema<iUserType>({
   name: {
     type: String,
     required: [true, "Please provide name."],
@@ -47,4 +49,4 @@ UserSchema.set("toJSON", {
 })
 
 export default mongoose.models.User ||
-  mongoose.model<UserType>("User", UserSchema)
+  mongoose.model<iUserType>("User", UserSchema)

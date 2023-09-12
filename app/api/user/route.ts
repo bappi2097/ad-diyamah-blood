@@ -1,7 +1,23 @@
 import { hash } from "bcryptjs"
 import { NextResponse } from "next/server"
 import dbConnect from "@/lib/dbConnect"
-import User, { UserType } from "@/models/User"
+import User, { UserType, UserWithID } from "@/models/User"
+
+export async function GET() {
+  await dbConnect()
+  try {
+    const users: UserWithID[] = await User.find({})
+    return NextResponse.json({ users })
+  } catch (error: any) {
+    return new NextResponse(
+      JSON.stringify({
+        status: "error",
+        message: error.message,
+      }),
+      { status: 500 }
+    )
+  }
+}
 
 export async function POST(req: Request) {
   await dbConnect()

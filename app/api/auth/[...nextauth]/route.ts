@@ -1,10 +1,10 @@
+import User, { iUserType, UserType, UserWithID } from "@/models/User"
+import NextAuth from "next-auth"
+import { compare } from "bcryptjs"
 import dbConnect from "@/lib/dbConnect"
 import clientPromise from "@/lib/mongodb"
-import User from "@/models/User"
 import { MongoDBAdapter } from "@auth/mongodb-adapter"
-import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { compare } from "bcryptjs"
 
 const handler = NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
@@ -34,7 +34,7 @@ const handler = NextAuth({
           return null
         }
 
-        const user = await User.findOne({
+        const user: iUserType | null = await User.findOne({
           email: credentials.email,
         })
 
