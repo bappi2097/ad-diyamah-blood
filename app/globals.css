@@ -9,3 +9,7 @@
   :root {
   }
 }
+
+.wrapper {
+  @apply p-6 lg:px-8;
+}
